@@ -1,3 +1,5 @@
+import os
+
 from ussd import screens
 from ussd.filters import date_filters
 from ussd.filters import dict_filters
@@ -23,12 +25,15 @@ def get_all_screens_module(path_name, package_name, package_list=None):
 
 loaded_screens = get_all_screens_module(path_name, package_name)
 
-for i in loaded_screens:
-    print("loaded screens:", i)
-print("loading filters")
+
+if os.getenv('USSD_ENGINE_VERBOSE_MODE', None):
+    for i in loaded_screens:
+        print("loaded screens:", i)
+    print("loading filters")
 
 env.filters.update(_registered_filters)
 
 env.globals.update(_built_in_functions)
 
-print("loading ussd init")
+if os.getenv('USSD_ENGINE_VERBOSE_MODE', None):
+    print("loading ussd init")
