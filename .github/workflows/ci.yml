@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-
+    timeout-minutes: 5
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -30,4 +30,4 @@ jobs:
         pip install -r requirements.txt
     - name: Test with pytest
       run: |
-        pytest
+        pytest -vv
