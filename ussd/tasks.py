@@ -1,18 +1,19 @@
-from celery import current_app as app
 import requests
-from structlog import get_logger
+from celery import shared_task
 from celery.exceptions import MaxRetriesExceededError
-from ussd.session_store import SessionStore
 from simplekv import KeyValueStore
 from simplekv.fs import FilesystemStore
+from structlog import get_logger
+
+from ussd.session_store import SessionStore
 
 
-@app.task(bind=True)
-def http_task(self, request_conf):
+@shared_task()
+def http_task(request_conf):
     requests.request(**request_conf)
 
 
-@app.task(bind=True)
+@shared_task(bind=True)
 def report_session(self, session_id, screen_content, session_store_backend: KeyValueStore = FilesystemStore("./session_data"),):
     # to avoid circular import
     from ussd.core import UssdHandlerAbstract

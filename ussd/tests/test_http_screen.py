@@ -64,7 +64,7 @@ class TestHttpScreen(UssdTestCase.BaseUssdTestCase):
         # test requests that were made
         mock_request.assert_has_calls(expected_calls)
 
-    @mock.patch("ussd.screens.http_screen.http_task")
+    @mock.patch("ussd.screens.http_screen.http_task.delay")
     @mock.patch("ussd.tasks.requests.request")
     def test_async_workflow(self, mock_request, mock_http_task):
         mock_response = MockResponse({"balance": 257})
@@ -74,7 +74,7 @@ class TestHttpScreen(UssdTestCase.BaseUssdTestCase):
         ussd_client.send('')
 
         # check http_task is called
-        mock_http_task.delay.assert_called_once_with(
+        mock_http_task.assert_called_once_with(
             request_conf=dict(
                 method='get',
                 url="https://localhost:8000/mock/submission",
