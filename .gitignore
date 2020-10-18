@@ -104,3 +104,7 @@ ENV/
 .ven
 
 .DS_Store
+
+
+.journeys
+session_data*

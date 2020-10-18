@@ -5,12 +5,6 @@ sphinx-autobuild==0.6.0
 sphinx_rtd_theme==0.1.9
 coverage==4.1
 codacy-coverage==1.2.18
-freezegun==0.3.11
+freezegun==0.3.13
 setuptools>=27
-boto3==1.9.87
-awscli==1.16.15
-ipdb==0.12.2
-twine==1.15.0
-# using mwaaas branch here as we wait for this pull request to be merged
-# https://github.com/steven-bruce-au/dynamodb-local-cloud-formation/pull/4
-git+https://github.com/mwaaas/dynamodb-local-cloud-formation.git@4bc92a0430ec319dc3ce33e9fffadd6ba1c861a8
+pytest==6.1.1

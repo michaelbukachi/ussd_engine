@@ -1,5 +1,8 @@
 import json
+import logging
 import os
+import shutil
+import tempfile
 import uuid
 
 
@@ -22,8 +25,7 @@ class UssdTestCase(object):
         session_store = FilesystemStore("./session_data")
 
         def setUp(self):
-            self.journey_store = YamlJourneyStore("/usr/src/app/ussd/tests/sample_screen_definition")
-
+            self.journey_store = YamlJourneyStore("sample_screen_definition", journey_directory='ussd/tests')
             file_prefix = self.__module__.split('.')[-1].replace('test_', '')
             self.journey_name = file_prefix
             journey_version_suffix = file_prefix + "_conf"
@@ -39,6 +41,11 @@ class UssdTestCase(object):
             super(UssdTestCase.BaseUssdTestCase, self).setUp()
 
             #
+        #
+        # @classmethod
+        # def tearDownClass(cls) -> None:
+        #     if os.path.exists('.journeys'):
+        #         shutil.rmtree('.journeys')
 
         def _test_ussd_validation(self, version_to_validate, expected_validation,
                                   expected_errors):

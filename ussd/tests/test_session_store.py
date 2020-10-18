@@ -258,7 +258,7 @@ class SessionTest(object):
 
             # before cycling data
             # check data has been saved
-            self.assertEquals(session.items(),
+            self.assertEqual(session.items(),
                               self.backend(session_id).items())
 
             # saving items before they are cleared
@@ -271,14 +271,14 @@ class SessionTest(object):
 
             new_session = self.backend(new_session_id)
             # sanity check
-            self.assertEquals(new_session['session_id'], session_id)
+            self.assertEqual(new_session['session_id'], session_id)
             # check data is the same
-            self.assertEquals(new_session.items(), pre_session_items)
+            self.assertEqual(new_session.items(), pre_session_items)
 
             # check that data has been removed in the previous version
             previous_session = self.backend(session_id)
             del previous_session['_session_expiry']
-            self.assertEquals(list(previous_session.items()), [])
+            self.assertEqual(list(previous_session.items()), [])
 
 
 class TestWithFileObject(SessionTest.SessionTestsMixin):

@@ -1,4 +1,7 @@
 from copy import deepcopy
+
+import pytest
+
 from ussd.core import UssdEngine
 from ussd.store.journey_store import DummyStore, DynamoDb, YamlJourneyStore
 from unittest import TestCase
@@ -6,7 +9,9 @@ from marshmallow.exceptions import ValidationError
 
 
 class TestDriverStore:
+
     class BaseDriverStoreTestCase(TestCase):
+        __test__ = False
         maxDiff = None
 
         def setUp(self):
@@ -15,6 +20,10 @@ class TestDriverStore:
 
         def tearDown(self):
             self.driver.flush()
+
+        @staticmethod
+        def setup_driver():
+            pass
 
         def test_creating_invalid_journey(self):
             sample_journey = {
@@ -297,28 +306,15 @@ class TestDriverStore:
 
 
 class TestDummyStore(TestDriverStore.BaseDriverStoreTestCase):
+    __test__ = True
 
     @staticmethod
     def setup_driver(user="default") -> DummyStore:
         return DummyStore.DummyStore(user=user)
 
 
-class TestDynamodb(TestDriverStore.BaseDriverStoreTestCase):
-    table_name = "test_dynamodb_journey_store"
-
-    @classmethod
-    def setUpClass(cls) -> None:
-        DynamoDb.create_table(table_name=cls.table_name)
-
-    @classmethod
-    def tearDownClass(cls) -> None:
-        DynamoDb.delete_table(table_name=cls.table_name)
-
-    def setup_driver(self, user="default") -> DynamoDb:
-        return DynamoDb.DynamoDb(self.table_name, "http://dynamodb:8000", user=user)
-
-
 class TestYamlJourneyStore(TestDriverStore.BaseDriverStoreTestCase):
+    __test__ = True
 
     @staticmethod
     def setup_driver(user="default") -> YamlJourneyStore:

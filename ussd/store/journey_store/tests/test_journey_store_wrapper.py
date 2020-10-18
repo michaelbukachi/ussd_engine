@@ -1,3 +1,5 @@
+import os
+import shutil
 from unittest import TestCase
 from ussd.store.journey_store import JourneyStoreApi
 from unittest import mock
@@ -30,6 +32,13 @@ class BaseTestCase(TestCase):
     driver_config = dict(
         journey_directory="./.journeys"
     )
+
+    # @classmethod
+    # def tearDownClass(cls) -> None:
+
+    def tearDown(self) -> None:
+        if os.path.exists('.journeys'):
+            shutil.rmtree('.journeys')
 
     @staticmethod
     def _get_store_config_without_driver_name(store_config):
