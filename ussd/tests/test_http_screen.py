@@ -1,11 +1,12 @@
-from unittest import mock, skip
+import os
+from unittest import mock, skip, skipIf
 
 import requests_mock
 
 from ussd.tests import UssdTestCase
 
 
-@skip("Hangs in CI. Needs to be fixed")
+@skipIf(os.getenv('CI', None), "Hangs in CI. Needs to be fixed")
 class TestHttpScreen(UssdTestCase.BaseUssdTestCase):
     validation_error_message = dict(
         screen_name="Screen not available",
