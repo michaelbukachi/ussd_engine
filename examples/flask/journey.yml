@@ -1,0 +1,24 @@
+initial_screen:
+  type: initial_screen
+  next_screen: input_name_screen
+
+
+input_name_screen:
+  type: input_screen
+  input_identifier: name
+  text: Hello, please enter your name
+  next_screen: function_add_foo_to_name_screen
+
+
+function_add_foo_to_name_screen:
+  type: function_screen
+  function: functions.add_bar_to_name
+  session_key: add_bar_to_name
+  next_screen: goodbye_screen
+
+
+goodbye_screen:
+  type: quit_screen
+  text: Goodbye {{ name }}
+
+
