@@ -12,6 +12,12 @@ initial_screen:
 choose_meal:
   type: menu_screen
   text: Choose your favourite meal
+  pagination_config:
+    ussd_text_limit: 90
+    more_option:
+      en: More
+    back_option:
+      en: Back
   error_message: |
     You have selected invalid option try again
   options:

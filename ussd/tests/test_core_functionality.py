@@ -410,6 +410,10 @@ class TestCommonFunctionality(TestCase):
         h['h'] = ["This field is required."]
         error_response_sample['g'] = h
 
+        j = OrderedDict()
+        j['_schema'] = ["some schema error"]
+        error_response_sample['i'] = j
+
         unordered_dict = dict(
             a=["a is invalid"],
             b=dict(
@@ -419,7 +423,8 @@ class TestCommonFunctionality(TestCase):
                 )
             ),
             f=["f is invalid"],
-            g=dict(h=["This field is required."])
+            g=dict(h=["This field is required."]),
+            i=dict(_schema=["some schema error"])
         )
 
         self.assertEqual(error_response_sample, unordered_dict)
@@ -444,6 +449,10 @@ class TestCommonFunctionality(TestCase):
             {
                 "path": ["g"],
                 "message": "h is required."
+            },
+            {
+                "path": ["i"],
+                "message": "some schema error"
             }
         ]
 

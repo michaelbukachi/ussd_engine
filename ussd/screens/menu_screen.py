@@ -6,7 +6,7 @@ import typing
 from marshmallow import validates_schema, fields, ValidationError
 from ussd.screens.schema import UssdContentBaseSchema, \
     MenuOptionSchema, NextUssdScreenSchema, \
-    UssdTextSchema, UssdTextField, WithDictSchema, WithItemSchema
+    UssdTextSchema, UssdTextField, WithDictSchema, WithItemSchema, PaginationConfigSchema
 
 
 class ItemsSchema(UssdTextSchema, NextUssdScreenSchema, WithDictSchema, WithItemSchema):
@@ -51,6 +51,7 @@ class MenuScreenSchema(UssdContentBaseSchema):
     )
     items = fields.Nested(ItemsSchema, required=False)
     error_message = UssdTextField(required=False)
+    pagination_config = fields.Nested(PaginationConfigSchema, required=False)
 
     @validates_schema
     def validate_options(self, data, **kwargs):

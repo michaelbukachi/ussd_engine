@@ -2,13 +2,13 @@ from ussd.core import UssdHandlerAbstract
 from ussd.graph import Link, Vertex
 import json
 from marshmallow import Schema, fields
-from ussd.screens.schema import UssdBaseScreenSchema, NextUssdScreenSchema, WithItemSchema
+from ussd.screens.schema import UssdBaseScreenSchema, NextUssdScreenSchema, WithItemSchema, UnionField
 
 
 class UpdateSessionExpressionSchema(Schema):
-    expression = fields.Str(required=False)
+    expression = UnionField([fields.Str(), fields.Int(), fields.Bool()], required=False)
     key = fields.Str(required=True)
-    value = fields.Str(required=True)
+    value = UnionField([fields.Str(), fields.Int(), fields.Bool()], required=True)
 
 
 class UpdateSessionSchema(UssdBaseScreenSchema, NextUssdScreenSchema, WithItemSchema):

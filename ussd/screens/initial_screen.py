@@ -1,5 +1,5 @@
 from ussd.core import UssdHandlerAbstract
-from ussd.screens.schema import UssdBaseScreenSchema, NextUssdScreenSchema
+from ussd.screens.schema import UssdBaseScreenSchema, NextUssdScreenSchema, PaginationConfigSchema
 from ussd.graph import Vertex, Link
 import typing
 from marshmallow import Schema, fields, validate
@@ -26,18 +26,12 @@ class UssdReportSessionSchema(Schema):
     async_parameters = fields.Dict(required=False)
 
 
-class PaginatorConfigSchema(Schema):
-    ussd_text_limit = fields.Integer(required=False, default=180)
-    more_option = fields.Dict()
-    back_option = fields.Dict()
-
-
 class InitialScreenSchema(UssdBaseScreenSchema, NextUssdScreenSchema):
     variables = fields.Nested(VariableDefinitionSchema, required=False)
     create_ussd_variables = fields.Dict(default={}, required=False)
     default_language = fields.Str(required=False, default="en")
     ussd_report_session = fields.Nested(UssdReportSessionSchema, required=False)
-    pagination_config = fields.Nested(PaginatorConfigSchema, required=False)
+    pagination_config = fields.Nested(PaginationConfigSchema, required=False)
 
 
 class InitialScreen(UssdHandlerAbstract):

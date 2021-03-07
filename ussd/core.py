@@ -8,7 +8,7 @@ import re
 import typing
 from collections import namedtuple
 from copy import copy
-from datetime import datetime
+import datetime
 from urllib.parse import unquote
 
 import requests
@@ -388,7 +388,7 @@ class UssdHandlerAbstract(object, metaclass=UssdHandlerMetaClass):
 
         # add timestamp in the context
         context.update(
-            dict(now=datetime.now())
+            dict(now=datetime.datetime.now(), datetime=datetime)
         )
 
         # add all built in functions
@@ -671,7 +671,7 @@ class UssdEngine(object):
             # get start time
             start_time = utilities.string_to_datetime(
                 self.ussd_request.session["ussd_interaction"][-1]["start_time"])
-            end_time = datetime.now()
+            end_time = datetime.datetime.now()
             # Report in milliseconds
             duration = (end_time - start_time).total_seconds() * 1000
             self.ussd_request.session["ussd_interaction"][-1].update(
@@ -709,7 +709,7 @@ class UssdEngine(object):
                 "screen_name": handler,
                 "screen_text": str(ussd_response),
                 "input": self.ussd_request.input,
-                "start_time": utilities.datetime_to_string(datetime.now())
+                "start_time": utilities.datetime_to_string(datetime.datetime.now())
             }
         )
         # Attach session to outgoing response
@@ -789,7 +789,11 @@ def convert_error_response_to_mermaid_error(error_response: dict, errors=None, p
 
     for key, value in error_response.items():
         if isinstance(value, list):
-            if len(value) == 1 and value[0] == "This field is required.":
+            if len(value) == 1 and key == '_schema':
+                    errors.append(
+                        dict(path=paths, message=value[0])
+                    )
+            elif len(value) == 1 and value[0] == "This field is required.":
                 errors.append(
                     dict(path=paths, message=value[0].replace('This field', key))
                 )
